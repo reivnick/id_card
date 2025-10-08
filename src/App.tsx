@@ -43,23 +43,26 @@ export default function App() {
                     {/* Background template */}
                     <Image src='/idcard_template.png' style={styles.background} />
 
-                    {/* Foto */}
-                    {photoDataUrl && (
-                        <View style={styles.photoWrapper}>
-                            <Image src={photoDataUrl} style={styles.photo} />
+                    {/* Content Container - Column Layout */}
+                    <View style={styles.contentContainer}>
+                        {/* Foto */}
+                        {photoDataUrl && (
+                            <View style={styles.photoWrapper}>
+                                <Image src={photoDataUrl} style={styles.photo} />
+                            </View>
+                        )}
+
+                        {/* Nama */}
+                        <Text style={styles.name}>{name || 'Nama Lengkap'}</Text>
+
+                        {/* Type Box */}
+                        <View style={styles.typeBox}>
+                            <Text style={styles.typeText}>{getTypeDisplayText(type)}</Text>
                         </View>
-                    )}
 
-                    {/* Nama */}
-                    <Text style={styles.name}>{name || 'Nama Lengkap'}</Text>
-
-                    {/* Type Box */}
-                    <View style={styles.typeBox}>
-                        <Text style={styles.typeText}>{getTypeDisplayText(type)}</Text>
+                        {/* Website Text */}
+                        <Text style={styles.websiteText}>www.insanmedika.co.id</Text>
                     </View>
-
-                    {/* Website Text */}
-                    <Text style={styles.websiteText}>www.insanmedika.co.id</Text>
                 </Page>
             </Document>
         ).toBlob();
@@ -175,13 +178,18 @@ const styles = StyleSheet.create({
         top: 0,
         left: 0,
     },
-    photoWrapper: {
+    contentContainer: {
         position: 'absolute',
-        top: '26%',
-        left: '50%',
-        width: 150,
-        height: 150,
-        marginLeft: -75, // Half of width to center
+        top: 160,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        width: 353,
+        gap: 15,
+    },
+    photoWrapper: {
+        width: 220,
+        height: 220,
         borderRadius: 12,
         overflow: 'hidden',
         border: '3px solid #008EDF',
@@ -193,45 +201,33 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     name: {
-        position: 'absolute',
-        top: '61%',
-        left: 0,
-        right: 0,
         textAlign: 'center',
-        fontSize: 16,
+        fontSize: 24,
         fontWeight: 'bold',
         color: '#111827',
-        paddingHorizontal: 28,
+        width: '100%',
         lineHeight: 1.2,
     },
     typeBox: {
-        position: 'absolute',
-        top: '68%',
-        left: '50%',
-        width: 110,
-        height: 30,
-        marginLeft: -55, // Half of width to center
+        width: 120,
+        height: 34,
         backgroundColor: '#008EDF',
-        borderRadius: 15,
+        borderRadius: 17,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
     },
     typeText: {
         color: '#FFFFFF',
-        fontSize: 12,
-        fontWeight: 'normal',
+        fontSize: 20,
+        fontWeight: 'light',
     },
     websiteText: {
-        position: 'absolute',
-        top: '73%',
-        left: 0,
-        right: 0,
         textAlign: 'center',
-        fontSize: 12,
+        fontSize: 18,
         fontWeight: 'light',
         color: '#111827',
-        paddingHorizontal: 28,
+        width: '100%',
     },
 });
 
