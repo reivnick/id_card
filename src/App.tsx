@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
         color: '#111827',
         width: '100%',
         lineHeight: 1.2,
-        paddingHorizontal: "8px",
+        paddingHorizontal: "16px",
         paddingVertical: "4px",
         flexWrap: 'wrap',
         wordWrap: 'break-word',
