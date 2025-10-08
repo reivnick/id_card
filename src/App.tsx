@@ -6,6 +6,11 @@ export default function App() {
     const [name, setName] = useState<string>('');
     const [photoDataUrl, setPhotoDataUrl] = useState<string | null>(null);
     const [isMobile, setIsMobile] = useState<boolean>(false);
+    const [type, setType] = useState<string>('nurse');
+
+    const getTypeDisplayText = (typeValue: string) => {
+        return typeValue === 'nurse' ? 'Perawat' : 'Caregiver';
+    };
 
     useEffect(() => {
         const checkMobile = () => {
@@ -47,6 +52,11 @@ export default function App() {
 
                     {/* Nama */}
                     <Text style={styles.name}>{name || 'Nama Lengkap'}</Text>
+
+                    {/* Type Box */}
+                    <View style={styles.typeBox}>
+                        <Text style={styles.typeText}>{getTypeDisplayText(type)}</Text>
+                    </View>
                 </Page>
             </Document>
         ).toBlob();
@@ -79,32 +89,42 @@ export default function App() {
                         className={`rounded-md border border-gray-300 mb-4 ${isMobile ? 'text-base min-h-11 px-4 py-3.5' : 'text-sm px-3 py-2.5'}`}
                     />
 
+                    <label className="text-sm text-black mb-2">Tipe:</label>
+                    <select
+                        value={type}
+                        onChange={(e) => setType(e.target.value)}
+                        className={`rounded-md border border-gray-300 mb-4 ${isMobile ? 'text-base min-h-11 px-4 py-3.5' : 'text-sm px-3 py-2.5'}`}
+                    >
+                        <option value="nurse">Perawat</option>
+                        <option value="caregiver">Caregiver</option>
+                    </select>
+
                     <button
                         onClick={handleDownloadPdf}
-                        className={`bg-gradient-to-br from-blue-900 to-blue-700 text-white border-none ${isMobile ? 'py-4 px-6' : 'py-3 px-5'} rounded-lg cursor-pointer font-semibold tracking-wide ${isMobile ? 'text-base' : 'text-sm'} ${isMobile ? 'min-h-12' : ''} w-full`}
+                        className={`bg-[#008EDF] text-white border-none ${isMobile ? 'py-4 px-6' : 'py-3 px-5'} rounded-lg cursor-pointer font-semibold tracking-wide ${isMobile ? 'text-base' : 'text-sm'} ${isMobile ? 'min-h-12' : ''} w-full`}
                     >
                         Unduh ID Card (PDF)
                     </button>
                 </div>
 
                 {/* RIGHT SIDE - LIVE PREVIEW */}
-                <div className={`flex-1 bg-gradient-to-br from-blue-900 to-blue-700 text-white flex flex-col justify-center items-center ${isMobile ? 'p-5' : 'p-7.5'} ${isMobile ? 'min-h-[400px]' : 'min-h-[300px]'}`}>
+                <div className={`flex-1 bg-[#008EDF] text-white flex flex-col justify-center items-center ${isMobile ? 'p-5' : 'p-7.5'} ${isMobile ? 'min-h-[400px]' : 'min-h-[300px]'}`}>
                     <h2 className="text-white font-bold text-xl mb-6">
                         ID Card Preview
                     </h2>
 
                     <div
-                        className={`${isMobile ? 'w-full' : 'w-[262px]'} ${isMobile ? 'max-w-[300px]' : 'max-w-[262px]'} ${isMobile ? 'h-auto' : 'h-[405px]'} ${isMobile ? 'aspect-[3/4]' : ''} relative bg-cover bg-center shadow-lg rounded-xl`}
+                        className={`relative bg-cover bg-center shadow-lg rounded-xl w-full max-w-[271px] ${isMobile ? 'h-auto' : 'h-[460px]'} ${isMobile ? 'aspect-[3/4]' : ''}`}
                         style={{ backgroundImage: "url('/idcard_template.png')" }}
                     >
                         {photoDataUrl ? (
                             <img
                                 src={photoDataUrl}
                                 alt='preview'
-                                className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-[30%] w-[150px] h-[150px] rounded-full object-cover border-3 border-white shadow-lg"
+                                className="absolute top-[26%] left-1/2 -translate-x-1/2 w-[150px] h-[150px] rounded-[12px] object-cover border-3 border-[#008EDF]"
                             />
                         ) : (
-                            <div className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-[30%] w-[150px] h-[150px] rounded-full border-3 border-dashed border-gray-300 bg-gray-50 flex items-center justify-center text-gray-500 text-xs font-medium text-center">
+                            <div className="absolute top-[26%] left-1/2 -translate-x-1/2 w-[150px] h-[150px] rounded-[12px] border-3 border-dashed border-gray-300 bg-gray-50 flex items-center justify-center text-gray-500 text-xs font-medium text-center">
                                 <div>
                                     <div style={{ fontSize: '24px', marginBottom: '4px' }}>📷</div>
                                     <div>Photo</div>
@@ -113,8 +133,24 @@ export default function App() {
                             </div>
                         )}
 
-                        <div className="absolute bottom-[25px] left-0 w-full text-center text-sm font-bold text-gray-900">
-                            {name || 'Nama Lengkap'}
+                        {/* Text Column Container */}
+                        <div className="absolute top-[61%] left-0 w-full flex flex-col items-center justify-start px-7 space-y-2">
+                            {/* Name */}
+                            <div className="w-full text-center text-lg font-bold text-gray-900 leading-tight break-words max-w-full">
+                                {name || 'Nama Lengkap'}
+                            </div>
+
+                            {/* Type Box */}
+                            <div className="w-[110px] h-[30px] bg-[#008EDF] rounded-full flex items-center justify-center">
+                                <span className="text-white text-sm font-normal">
+                                    {getTypeDisplayText(type)}
+                                </span>
+                            </div>
+
+                            {/* Insanmedika Text */}
+                            <div className="w-full text-center text-sm font-light text-gray-900">
+                                www.insanmedika.co.id
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -140,15 +176,15 @@ const styles = StyleSheet.create({
         left: '17%',
         width: 350,
         height: 350,
-        borderRadius: 200,
+        borderRadius: 8,
         overflow: 'hidden',
-        border: '3px solid #fff',
+        border: '3px solid #008EDF',
     },
     photo: {
         width: '100%',
         height: '100%',
         objectFit: 'cover',
-        borderRadius: 200,
+        borderRadius: 8,
     },
     name: {
         position: 'absolute',
@@ -156,8 +192,29 @@ const styles = StyleSheet.create({
         left: 0,
         width: '100%',
         textAlign: 'center',
-        fontSize: 22,
+        fontSize: 18,
         fontWeight: 'bold',
         color: '#222',
+        lineHeight: 1.2,
+        paddingHorizontal: 20,
+        maxHeight: 80,
+    },
+    typeBox: {
+        position: 'absolute',
+        bottom: 20,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: 180,
+        height: 35,
+        backgroundColor: '#008EDF',
+        borderRadius: 8,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    typeText: {
+        fontSize: 14,
+        fontWeight: 'semibold',
+        color: '#fff',
     },
 });
