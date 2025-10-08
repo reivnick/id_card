@@ -53,7 +53,9 @@ export default function App() {
                         )}
 
                         {/* Nama */}
-                        <Text style={styles.name}>{name || 'Nama Lengkap'}</Text>
+                        <View style={{ width: '100%', alignItems: 'center' }}>
+                            <Text style={styles.name}>{name || 'Nama Lengkap'}</Text>
+                        </View>
 
                         {/* Type Box */}
                         <View style={styles.typeBox}>
@@ -205,12 +207,11 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         color: '#111827',
-        width: '100%',
+        width: '90%',            // make it slightly narrower to trigger wrapping earlier
         lineHeight: 1.2,
-        paddingHorizontal: "16px",
-        paddingVertical: "4px",
-        flexWrap: 'wrap',
-        wordWrap: 'break-word',
+        paddingHorizontal: 24,
+        paddingVertical: 4,
+        flexWrap: 'wrap',        // ⬅ enables text wrapping
     },
     typeBox: {
         minWidth: 120,
