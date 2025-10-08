@@ -55,179 +55,56 @@ export default function App() {
     };
 
     return (
-        <div
-            style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                minHeight: '100vh',
-                background: '#f4f6fa',
-                fontFamily: 'Inter, sans-serif',
-                padding: '20px',
-            }}
-        >
-            <div
-                style={{
-                    display: 'flex',
-                    flexDirection: isMobile ? 'column' : 'row',
-                    width: '100%',
-                    maxWidth: '900px',
-                    minHeight: isMobile ? 'auto' : '600px',
-                    borderRadius: '16px',
-                    overflow: 'hidden',
-                    boxShadow: '0 8px 30px rgba(0,0,0,0.15)',
-                }}
-            >
+        <div className="flex justify-center items-center min-h-screen bg-gray-50 font-['Inter',sans-serif] p-5">
+            <div className={`flex ${isMobile ? 'flex-col' : 'flex-row'} w-full max-w-[900px] ${isMobile ? 'min-h-auto' : 'min-h-[600px]'} rounded-2xl overflow-hidden shadow-lg`}>
                 {/* LEFT SIDE - FORM INPUT */}
-                <div
-                    style={{
-                        flex: 1,
-                        background: '#ffffff',
-                        padding: isMobile ? '20px' : '40px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        minHeight: isMobile ? 'auto' : '300px',
-                    }}
-                >
-                    <h2
-                        style={{
-                            color: '#333',
-                            fontWeight: 700,
-                            fontSize: '22px',
-                            marginBottom: '24px',
-                        }}
-                    >
+                <div className={`flex-1 bg-white ${isMobile ? 'p-5' : 'p-10'} flex flex-col justify-center ${isMobile ? 'min-h-auto' : 'min-h-[300px]'}`}>
+                    <h2 className="text-gray-800 font-bold text-xl mb-6">
                         Buat ID Card
                     </h2>
 
-                    <label style={{ fontSize: 14, color: '#444', marginBottom: 8 }}>Foto:</label>
+                    <label className="text-sm text-black mb-2">Foto:</label>
                     <input
                         type='file'
                         accept='image/*'
                         onChange={handlePhotoChange}
-                        style={{
-                            marginBottom: 16,
-                            padding: isMobile ? 12 : 8,
-                            borderRadius: 6,
-                            border: '1px solid #ccc',
-                            fontSize: isMobile ? '16px' : '14px',
-                            minHeight: isMobile ? '44px' : 'auto',
-                        }}
+                        className={`rounded-md border border-gray-300 mb-4 ${isMobile ? 'text-base min-h-11 px-4 py-3.5' : 'text-sm px-3 py-2.5'}`}
                     />
 
-                    <label style={{ fontSize: 14, color: '#444', marginBottom: 8 }}>Nama:</label>
+                    <label className="text-sm text-black mb-2">Nama:</label>
                     <input
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder='Masukkan nama lengkap'
-                        style={{
-                            padding: isMobile ? '14px 16px' : '10px 12px',
-                            borderRadius: 6,
-                            border: '1px solid #ccc',
-                            marginBottom: 20,
-                            fontSize: isMobile ? '16px' : '14px',
-                            minHeight: isMobile ? '44px' : 'auto',
-                        }}
+                        className={`rounded-md border border-gray-300 mb-4 ${isMobile ? 'text-base min-h-11 px-4 py-3.5' : 'text-sm px-3 py-2.5'}`}
                     />
 
                     <button
                         onClick={handleDownloadPdf}
-                        style={{
-                            background: 'linear-gradient(135deg, #003A69, #0469BA)',
-                            color: '#fff',
-                            border: 'none',
-                            padding: isMobile ? '16px 24px' : '12px 20px',
-                            borderRadius: '8px',
-                            cursor: 'pointer',
-                            fontWeight: 600,
-                            letterSpacing: 0.5,
-                            fontSize: isMobile ? '16px' : '14px',
-                            minHeight: isMobile ? '48px' : 'auto',
-                            width: '100%',
-                        }}
+                        className={`bg-gradient-to-br from-blue-900 to-blue-700 text-white border-none ${isMobile ? 'py-4 px-6' : 'py-3 px-5'} rounded-lg cursor-pointer font-semibold tracking-wide ${isMobile ? 'text-base' : 'text-sm'} ${isMobile ? 'min-h-12' : ''} w-full`}
                     >
                         Unduh ID Card (PDF)
                     </button>
                 </div>
 
                 {/* RIGHT SIDE - LIVE PREVIEW */}
-                <div
-                    style={{
-                        flex: 1,
-                        background: 'linear-gradient(135deg, #003A69, #0469BA)',
-                        color: '#fff',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        padding: isMobile ? '20px' : '30px',
-                        minHeight: isMobile ? '400px' : '300px',
-                    }}
-                >
-                    <h2
-                        style={{
-                            color: '#fff',
-                            fontWeight: 700,
-                            fontSize: '22px',
-                            marginBottom: '24px',
-                        }}
-                    >
+                <div className={`flex-1 bg-gradient-to-br from-blue-900 to-blue-700 text-white flex flex-col justify-center items-center ${isMobile ? 'p-5' : 'p-7.5'} ${isMobile ? 'min-h-[400px]' : 'min-h-[300px]'}`}>
+                    <h2 className="text-white font-bold text-xl mb-6">
                         ID Card Preview
                     </h2>
 
                     <div
-                        style={{
-                            width: isMobile ? '100%' : 262,
-                            maxWidth: isMobile ? 300 : 262,
-                            height: isMobile ? 'auto' : 405,
-                            aspectRatio: isMobile ? '3/4' : 'auto',
-                            position: 'relative',
-                            backgroundImage: "url('/idcard_template.png')",
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
-                            boxShadow: '0 8px 30px rgba(0,0,0,0.15)',
-                            borderRadius: 12,
-                        }}
+                        className={`${isMobile ? 'w-full' : 'w-[262px]'} ${isMobile ? 'max-w-[300px]' : 'max-w-[262px]'} ${isMobile ? 'h-auto' : 'h-[405px]'} ${isMobile ? 'aspect-[3/4]' : ''} relative bg-cover bg-center shadow-lg rounded-xl`}
+                        style={{ backgroundImage: "url('/idcard_template.png')" }}
                     >
                         {photoDataUrl ? (
                             <img
                                 src={photoDataUrl}
                                 alt='preview'
-                                style={{
-                                    position: 'absolute',
-                                    top: '40%',
-                                    left: '50%',
-                                    transform: 'translate(-50%, -30%)',
-                                    width: 150,
-                                    height: 150,
-                                    borderRadius: '55%',
-                                    objectFit: 'cover',
-                                    border: '3px solid #fff',
-                                    boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
-                                }}
+                                className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-[30%] w-[150px] h-[150px] rounded-full object-cover border-3 border-white shadow-lg"
                             />
                         ) : (
-                            <div
-                                style={{
-                                    position: 'absolute',
-                                    top: '40%',
-                                    left: '50%',
-                                    transform: 'translate(-50%, -30%)',
-                                    width: 150,
-                                    height: 150,
-                                    borderRadius: '55%',
-                                    border: '3px dashed #ccc',
-                                    backgroundColor: '#f8f9fa',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    color: '#888',
-                                    fontSize: '12px',
-                                    fontWeight: 500,
-                                    textAlign: 'center',
-                                }}
-                            >
+                            <div className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-[30%] w-[150px] h-[150px] rounded-full border-3 border-dashed border-gray-300 bg-gray-50 flex items-center justify-center text-gray-500 text-xs font-medium text-center">
                                 <div>
                                     <div style={{ fontSize: '24px', marginBottom: '4px' }}>📷</div>
                                     <div>Photo</div>
@@ -236,18 +113,7 @@ export default function App() {
                             </div>
                         )}
 
-                        <div
-                            style={{
-                                position: 'absolute',
-                                bottom: 25,
-                                left: 0,
-                                width: '100%',
-                                textAlign: 'center',
-                                fontSize: 14,
-                                fontWeight: 700,
-                                color: '#222',
-                            }}
-                        >
+                        <div className="absolute bottom-[25px] left-0 w-full text-center text-sm font-bold text-gray-900">
                             {name || 'Nama Lengkap'}
                         </div>
                     </div>
