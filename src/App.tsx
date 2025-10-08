@@ -39,7 +39,7 @@ export default function App() {
 
         const blob = await pdf(
             <Document>
-                <Page size={[591, 1004]} style={styles.page}>
+                <Page size={[353, 600]} style={styles.page}>
                     {/* Background template */}
                     <Image src='/idcard_template.png' style={styles.background} />
 
@@ -161,4 +161,77 @@ export default function App() {
         </div>
     );
 }
+
+const styles = StyleSheet.create({
+    page: {
+        position: 'relative',
+        width: 353,
+        height: 600,
+    },
+    background: {
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        top: 0,
+        left: 0,
+    },
+    photoWrapper: {
+        position: 'absolute',
+        top: '26%',
+        left: '50%',
+        width: 150,
+        height: 150,
+        marginLeft: -75, // Half of width to center
+        borderRadius: 12,
+        overflow: 'hidden',
+        border: '3px solid #008EDF',
+    },
+    photo: {
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover',
+        borderRadius: 10,
+    },
+    name: {
+        position: 'absolute',
+        top: '61%',
+        left: 0,
+        right: 0,
+        textAlign: 'center',
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#111827',
+        paddingHorizontal: 28,
+        lineHeight: 1.2,
+    },
+    typeBox: {
+        position: 'absolute',
+        top: '68%',
+        left: '50%',
+        width: 110,
+        height: 30,
+        marginLeft: -55, // Half of width to center
+        backgroundColor: '#008EDF',
+        borderRadius: 15,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    typeText: {
+        color: '#FFFFFF',
+        fontSize: 12,
+        fontWeight: 'normal',
+    },
+    websiteText: {
+        position: 'absolute',
+        top: '73%',
+        left: 0,
+        right: 0,
+        textAlign: 'center',
+        fontSize: 12,
+        fontWeight: 'light',
+        color: '#111827',
+        paddingHorizontal: 28,
+    },
+});
 
