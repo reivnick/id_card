@@ -98,14 +98,35 @@ export default function App() {
                     />
 
                     <label className="text-sm text-black mb-2">Tipe:</label>
-                    <select
-                        value={type}
-                        onChange={(e) => setType(e.target.value)}
-                        className={`rounded-md border border-gray-300 mb-4 ${isMobile ? 'text-base min-h-11 px-4 py-3.5' : 'text-sm px-3 py-2.5'}`}
-                    >
-                        <option value="nurse">Perawat</option>
-                        <option value="caregiver">Caregiver</option>
-                    </select>
+                    <div className="relative mb-4">
+                        <select
+                            value={type}
+                            onChange={(e) => setType(e.target.value)}
+                            className={`w-full appearance-none rounded-md border border-gray-300 bg-white text-black focus:outline-none focus:ring-2 focus:ring-[#008EDF] ${isMobile
+                                ? 'text-base min-h-11 px-4 py-3.5 pr-10'
+                                : 'text-sm px-3 py-2.5 pr-8'
+                                }`}
+                        >
+                            <option value="nurse">Perawat</option>
+                            <option value="caregiver">Caregiver</option>
+                        </select>
+
+                        {/* custom arrow */}
+                        <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-gray-500">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="w-4 h-4"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                            >
+                                <path
+                                    fillRule="evenodd"
+                                    d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z"
+                                    clipRule="evenodd"
+                                />
+                            </svg>
+                        </div>
+                    </div>
 
                     <button
                         onClick={handleDownloadPdf}
@@ -116,13 +137,13 @@ export default function App() {
                 </div>
 
                 {/* RIGHT SIDE - LIVE PREVIEW */}
-                <div className={`flex-1 bg-[#008EDF] text-white flex flex-col justify-center items-center ${isMobile ? 'p-5' : 'p-7.5'} ${isMobile ? 'min-h-[400px]' : 'min-h-[300px]'}`}>
+                <div className={`flex-1 bg-[#008EDF] text-white flex flex-col justify-center items-center ${isMobile ? 'p-5' : 'p-7.5'} ${isMobile ? 'min-h-[600px]' : 'min-h-[300px]'}`}>
                     <h2 className="text-white font-bold text-xl mb-6">
                         ID Card Preview
                     </h2>
 
                     <div
-                        className={`relative bg-cover bg-center shadow-lg rounded-xl w-full max-w-[271px] ${isMobile ? 'h-auto' : 'h-[460px]'} ${isMobile ? 'aspect-[3/4]' : ''}`}
+                        className={`relative bg-cover bg-center shadow-lg rounded-xl w-full max-w-[271px] h-[460px] ${isMobile ? 'aspect-[3/4]' : ''}`}
                         style={{ backgroundImage: "url('/idcard_template.png')" }}
                     >
                         {photoDataUrl ? (
@@ -207,11 +228,11 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         color: '#111827',
-        width: '90%',            // make it slightly narrower to trigger wrapping earlier
+        width: '90%',
         lineHeight: 1.2,
         paddingHorizontal: 24,
         paddingVertical: 4,
-        flexWrap: 'wrap',        // ⬅ enables text wrapping
+        flexWrap: 'wrap',
     },
     typeBox: {
         minWidth: 120,
