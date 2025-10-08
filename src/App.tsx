@@ -39,7 +39,7 @@ export default function App() {
 
         const blob = await pdf(
             <Document>
-                <Page size={[524, 810]} style={styles.page}>
+                <Page size={[591, 1004]} style={styles.page}>
                     {/* Background template */}
                     <Image src='/idcard_template.png' style={styles.background} />
 
@@ -57,6 +57,9 @@ export default function App() {
                     <View style={styles.typeBox}>
                         <Text style={styles.typeText}>{getTypeDisplayText(type)}</Text>
                     </View>
+
+                    {/* Website Text */}
+                    <Text style={styles.websiteText}>www.insanmedika.co.id</Text>
                 </Page>
             </Document>
         ).toBlob();
@@ -159,62 +162,3 @@ export default function App() {
     );
 }
 
-// PDF STYLES
-const styles = StyleSheet.create({
-    page: {
-        position: 'relative',
-        backgroundColor: '#fff',
-    },
-    background: {
-        position: 'absolute',
-        width: '100%',
-        height: '100%',
-    },
-    photoWrapper: {
-        position: 'absolute',
-        top: '20%',
-        left: '17%',
-        width: 350,
-        height: 350,
-        borderRadius: 8,
-        overflow: 'hidden',
-        border: '3px solid #008EDF',
-    },
-    photo: {
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover',
-        borderRadius: 8,
-    },
-    name: {
-        position: 'absolute',
-        bottom: 55,
-        left: 0,
-        width: '100%',
-        textAlign: 'center',
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: '#222',
-        lineHeight: 1.2,
-        paddingHorizontal: 20,
-        maxHeight: 80,
-    },
-    typeBox: {
-        position: 'absolute',
-        bottom: 20,
-        left: '50%',
-        transform: 'translateX(-50%)',
-        width: 180,
-        height: 35,
-        backgroundColor: '#008EDF',
-        borderRadius: 8,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    typeText: {
-        fontSize: 14,
-        fontWeight: 'semibold',
-        color: '#fff',
-    },
-});
