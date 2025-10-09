@@ -7,6 +7,35 @@ export default function App() {
     const [isMobile, setIsMobile] = useState<boolean>(false);
     const [type, setType] = useState<string>('nurse');
 
+    const [photoPosition, setPhotoPosition] = useState({ x: 0, y: 0 });
+    const [photoScale, setPhotoScale] = useState(1);
+    const [isDragging, setIsDragging] = useState(false);
+    const [startDrag, setStartDrag] = useState<{ x: number; y: number } | null>(null);
+
+
+    const handleMouseDown = (e: React.MouseEvent) => {
+        setIsDragging(true);
+        setStartDrag({ x: e.clientX, y: e.clientY });
+    };
+
+    const handleMouseMove = (e: React.MouseEvent) => {
+        if (!isDragging || !startDrag) return;
+        const dx = e.clientX - startDrag.x;
+        const dy = e.clientY - startDrag.y;
+
+        setPhotoPosition((prev) => ({
+            x: Math.max(Math.min(prev.x + dx, 50), -50), // batasi pergeseran
+            y: Math.max(Math.min(prev.y + dy, 50), -50),
+        }));
+        setStartDrag({ x: e.clientX, y: e.clientY });
+    };
+
+    const handleMouseUp = () => {
+        setIsDragging(false);
+        setStartDrag(null);
+    };
+
+
     const getTypeDisplayText = (typeValue: string) => {
         return typeValue === 'nurse' ? 'Perawat' : 'Caregiver';
     };
@@ -117,8 +146,22 @@ export default function App() {
                         <View style={styles.contentContainer}>
                             {/* Foto */}
                             {photoDataUrl && (
-                                <View style={styles.photoWrapper}>
-                                    <Image src={photoDataUrl} style={styles.photo} />
+                                <View
+                                    style={{
+                                        ...styles.photoWrapper,
+                                        overflow: 'hidden',
+                                        position: 'relative',
+                                    }}
+                                >
+                                    <Image
+                                        src={photoDataUrl}
+                                        style={{
+                                            ...styles.photo,
+                                            objectFit: 'contain',
+                                            transform: `translate(${photoPosition.x}px, ${photoPosition.y}px) scale(${photoScale})`,
+                                            transformOrigin: 'center center',
+                                        }}
+                                    />
                                 </View>
                             )}
 
@@ -162,6 +205,18 @@ export default function App() {
                         onChange={handlePhotoChange}
                         className={`rounded-md border border-gray-300 mb-4 ${isMobile ? 'text-base min-h-11 px-4 py-3.5' : 'text-sm px-3 py-2.5'}`}
                     />
+
+                    <label className="text-sm text-black mb-2">Zoom Foto:</label>
+                    <input
+                        type="range"
+                        min="0.8"
+                        max="2"
+                        step="0.05"
+                        value={photoScale}
+                        onChange={(e) => setPhotoScale(parseFloat(e.target.value))}
+                        className="w-full mb-4 accent-[#008EDF]"
+                    />
+
 
                     <label className="text-sm text-black mb-2">Nama Singkat: (Hanya 1 Baris)</label>
                     <input
@@ -221,11 +276,26 @@ export default function App() {
                         style={{ backgroundImage: "url('/idcard_template.png')" }}
                     >
                         {photoDataUrl ? (
-                            <img
-                                src={photoDataUrl}
-                                alt='preview'
-                                className="absolute top-[26%] left-1/2 -translate-x-1/2 w-[190px] h-[190px] rounded-[12px] object-cover"
-                            />
+                            <div
+                                className="absolute top-[26%] left-1/2 -translate-x-1/2 w-[190px] h-[190px] rounded-[12px] overflow-hidden border border-gray-200 bg-gray-100 cursor-grab active:cursor-grabbing"
+                                onMouseDown={handleMouseDown}
+                                onMouseMove={handleMouseMove}
+                                onMouseUp={handleMouseUp}
+                                onMouseLeave={handleMouseUp}
+                            >
+                                <img
+                                    src={photoDataUrl}
+                                    alt="preview"
+                                    className="absolute select-none pointer-events-none"
+                                    style={{
+                                        width: 'auto',
+                                        height: '100%',
+                                        objectFit: 'contain',
+                                        transform: `translate(${photoPosition.x}px, ${photoPosition.y}px) scale(${photoScale})`,
+                                        transformOrigin: 'center center',
+                                    }}
+                                />
+                            </div>
                         ) : (
                             <div className="absolute top-[26%] left-1/2 -translate-x-1/2 w-[190px] h-[190px] rounded-[12px] border-3 border-dashed border-gray-300 bg-gray-50 flex items-center justify-center text-gray-500 text-xs font-medium text-center">
                                 <div>
