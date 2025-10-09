@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Page, Text, Image, Document, StyleSheet, pdf, View } from '@react-pdf/renderer';
 import { saveAs } from 'file-saver';
 
 export default function App() {
@@ -37,39 +36,114 @@ export default function App() {
             return;
         }
 
-        const blob = await pdf(
-            <Document>
-                <Page size={[353, 600]} style={styles.page}>
-                    {/* Background template */}
-                    <Image src='/idcard_template.png' style={styles.background} />
+        try {
+            // Dynamic import - only loads when user clicks download
+            const { pdf, Document, Page, View, Image, Text, StyleSheet } = await import('@react-pdf/renderer');
 
-                    {/* Content Container - Column Layout */}
-                    <View style={styles.contentContainer}>
-                        {/* Foto */}
-                        {photoDataUrl && (
-                            <View style={styles.photoWrapper}>
-                                <Image src={photoDataUrl} style={styles.photo} />
+            // Create styles dynamically since StyleSheet is also imported
+            const styles = StyleSheet.create({
+                page: {
+                    position: 'relative',
+                    width: 353,
+                    height: 600,
+                },
+                background: {
+                    position: 'absolute',
+                    width: '100%',
+                    height: '100%',
+                    top: 0,
+                    left: 0,
+                },
+                contentContainer: {
+                    position: 'absolute',
+                    top: 160,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    width: 353,
+                    gap: 10,
+                },
+                photoWrapper: {
+                    width: 260,
+                    height: 260,
+                    overflow: 'hidden',
+                },
+                photo: {
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    borderRadius: 10,
+                },
+                name: {
+                    textAlign: 'center',
+                    fontSize: 24,
+                    fontWeight: 'bold',
+                    color: '#111827',
+                    width: '90%',
+                    lineHeight: 1.2,
+                    paddingHorizontal: 24,
+                    flexWrap: 'wrap',
+                },
+                typeBox: {
+                    minWidth: 120,
+                    minHeight: 34,
+                    backgroundColor: '#008EDF',
+                    borderRadius: 17,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                },
+                typeText: {
+                    color: '#FFFFFF',
+                    fontSize: 20,
+                    fontWeight: 'light',
+                },
+                websiteText: {
+                    textAlign: 'center',
+                    fontSize: 16,
+                    fontWeight: 'light',
+                    color: '#212121',
+                    width: '100%',
+                },
+            });
+
+            const blob = await pdf(
+                <Document>
+                    <Page size={[353, 600]} style={styles.page}>
+                        {/* Background template */}
+                        <Image src='/idcard_template.png' style={styles.background} />
+
+                        {/* Content Container - Column Layout */}
+                        <View style={styles.contentContainer}>
+                            {/* Foto */}
+                            {photoDataUrl && (
+                                <View style={styles.photoWrapper}>
+                                    <Image src={photoDataUrl} style={styles.photo} />
+                                </View>
+                            )}
+
+                            {/* Nama */}
+                            <View style={{ width: '100%', alignItems: 'center' }}>
+                                <Text style={styles.name}>{name || 'Nama Lengkap'}</Text>
                             </View>
-                        )}
 
-                        {/* Nama */}
-                        <View style={{ width: '100%', alignItems: 'center' }}>
-                            <Text style={styles.name}>{name || 'Nama Lengkap'}</Text>
+                            {/* Type Box */}
+                            <View style={styles.typeBox}>
+                                <Text style={styles.typeText}>{getTypeDisplayText(type)}</Text>
+                            </View>
+
+                            {/* Website Text */}
+                            <Text style={styles.websiteText}>www.insanmedika.co.id</Text>
                         </View>
+                    </Page>
+                </Document>
+            ).toBlob();
 
-                        {/* Type Box */}
-                        <View style={styles.typeBox}>
-                            <Text style={styles.typeText}>{getTypeDisplayText(type)}</Text>
-                        </View>
-
-                        {/* Website Text */}
-                        <Text style={styles.websiteText}>www.insanmedika.co.id</Text>
-                    </View>
-                </Page>
-            </Document>
-        ).toBlob();
-
-        saveAs(blob, `${name || 'idcard'}.pdf`);
+            saveAs(blob, `${name || 'idcard'}.pdf`);
+        } catch (error) {
+            console.error('Error generating PDF:', error);
+            alert('Terjadi kesalahan saat membuat PDF. Silakan coba lagi.');
+        }
     };
 
     return (
@@ -188,69 +262,4 @@ export default function App() {
     );
 }
 
-const styles = StyleSheet.create({
-    page: {
-        position: 'relative',
-        width: 353,
-        height: 600,
-    },
-    background: {
-        position: 'absolute',
-        width: '100%',
-        height: '100%',
-        top: 0,
-        left: 0,
-    },
-    contentContainer: {
-        position: 'absolute',
-        top: 160,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        width: 353,
-        gap: 10,
-    },
-    photoWrapper: {
-        width: 260,
-        height: 260,
-        overflow: 'hidden',
-    },
-    photo: {
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover',
-        borderRadius: 10,
-    },
-    name: {
-        textAlign: 'center',
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: '#111827',
-        width: '90%',
-        lineHeight: 1.2,
-        paddingHorizontal: 24,
-        flexWrap: 'wrap',
-    },
-    typeBox: {
-        minWidth: 120,
-        minHeight: 34,
-        backgroundColor: '#008EDF',
-        borderRadius: 17,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    typeText: {
-        color: '#FFFFFF',
-        fontSize: 20,
-        fontWeight: 'light',
-    },
-    websiteText: {
-        textAlign: 'center',
-        fontSize: 16,
-        fontWeight: 'light',
-        color: '#212121',
-        width: '100%',
-    },
-});
 
