@@ -89,11 +89,11 @@ export default function App() {
                         className={`rounded-md border border-gray-300 mb-4 ${isMobile ? 'text-base min-h-11 px-4 py-3.5' : 'text-sm px-3 py-2.5'}`}
                     />
 
-                    <label className="text-sm text-black mb-2">Nama:</label>
+                    <label className="text-sm text-black mb-2">Nama Singkat: (Hanya 1 Baris)</label>
                     <input
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        placeholder='Masukkan nama lengkap'
+                        placeholder='Masukkan 1 baris nama singkat'
                         className={`rounded-md border border-gray-300 mb-4 ${isMobile ? 'text-base min-h-11 px-4 py-3.5' : 'text-sm px-3 py-2.5'}`}
                     />
 
@@ -150,10 +150,10 @@ export default function App() {
                             <img
                                 src={photoDataUrl}
                                 alt='preview'
-                                className="absolute top-[26%] left-1/2 -translate-x-1/2 w-[150px] h-[150px] rounded-[12px] object-cover border-3 border-[#008EDF]"
+                                className="absolute top-[26%] left-1/2 -translate-x-1/2 w-[190px] h-[190px] rounded-[12px] object-cover"
                             />
                         ) : (
-                            <div className="absolute top-[26%] left-1/2 -translate-x-1/2 w-[150px] h-[150px] rounded-[12px] border-3 border-dashed border-gray-300 bg-gray-50 flex items-center justify-center text-gray-500 text-xs font-medium text-center">
+                            <div className="absolute top-[26%] left-1/2 -translate-x-1/2 w-[190px] h-[190px] rounded-[12px] border-3 border-dashed border-gray-300 bg-gray-50 flex items-center justify-center text-gray-500 text-xs font-medium text-center">
                                 <div>
                                     <div style={{ fontSize: '24px', marginBottom: '4px' }}>📷</div>
                                     <div>Photo</div>
@@ -163,7 +163,7 @@ export default function App() {
                         )}
 
                         {/* Text Column Container */}
-                        <div className="absolute top-[61%] left-0 w-full flex flex-col items-center justify-start px-7 space-y-2">
+                        <div className="absolute bottom-[11%] left-0 w-full flex flex-col items-center justify-start px-7 space-y-2">
                             {/* Name */}
                             <div className="w-full text-center text-lg font-bold text-gray-900 leading-tight break-words max-w-full">
                                 {name || 'Nama Lengkap'}
@@ -211,11 +211,9 @@ const styles = StyleSheet.create({
         gap: 10,
     },
     photoWrapper: {
-        width: 210,
-        height: 210,
-        borderRadius: 12,
+        width: 260,
+        height: 260,
         overflow: 'hidden',
-        border: '3px solid #008EDF',
     },
     photo: {
         width: '100%',
@@ -231,7 +229,6 @@ const styles = StyleSheet.create({
         width: '90%',
         lineHeight: 1.2,
         paddingHorizontal: 24,
-        paddingVertical: 4,
         flexWrap: 'wrap',
     },
     typeBox: {
