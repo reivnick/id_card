@@ -13,7 +13,6 @@
     "@react-pdf/renderer": "^4.3.1",
     "@tailwindcss/vite": "^4.1.14",
     "@vercel/analytics": "^1.5.0",
-    "@vercel/speed-insights": "^1.2.0",
     "buffer": "^6.0.3",
     "file-saver": "^2.0.5",
     "react": "^19.1.1",
