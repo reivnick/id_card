@@ -11,6 +11,37 @@ export default function App() {
     const [photoScale, setPhotoScale] = useState(1);
     const [isDragging, setIsDragging] = useState(false);
     const [startDrag, setStartDrag] = useState<{ x: number; y: number } | null>(null);
+    const [isDraggingFile, setIsDraggingFile] = useState(false);
+
+    const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDraggingFile(true);
+    };
+
+    const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDraggingFile(false);
+    };
+
+    const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const file = e.dataTransfer.files?.[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = () => setPhotoDataUrl(reader.result as string);
+        reader.readAsDataURL(file);
+    };
+
+    const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        e.dataTransfer.dropEffect = 'copy';
+    };
+
 
 
     const handleMouseDown = (e: React.MouseEvent) => {
@@ -272,8 +303,13 @@ export default function App() {
                     </h2>
 
                     <div
-                        className={`relative bg-cover bg-center shadow-lg rounded-xl w-full max-w-[271px] h-[460px] ${isMobile ? 'aspect-[3/4]' : ''}`}
+                        className={`relative bg-cover bg-center shadow-lg rounded-xl w-full max-w-[271px] h-[460px] ${isMobile ? 'aspect-[3/4]' : ''} transition-all duration-200 ${isDraggingFile ? 'ring-4 ring-blue-400 ring-offset-2' : ''
+                            }`}
                         style={{ backgroundImage: "url('/idcard_template.png')" }}
+                        onDrop={handleDrop}
+                        onDragOver={handleDragOver}
+                        onDragEnter={handleDragEnter}
+                        onDragLeave={handleDragLeave}
                     >
                         {photoDataUrl ? (
                             <div
@@ -300,8 +336,8 @@ export default function App() {
                             <div className="absolute top-[26%] left-1/2 -translate-x-1/2 w-[190px] h-[190px] rounded-[12px] border-3 border-dashed border-gray-300 bg-gray-50 flex items-center justify-center text-gray-500 text-xs font-medium text-center">
                                 <div>
                                     <div style={{ fontSize: '24px', marginBottom: '4px' }}>📷</div>
-                                    <div>Photo</div>
-                                    <div>Placeholder</div>
+                                    <div>{isDraggingFile ? 'Lepaskan foto di sini' : 'Tarik & Jatuhkan foto'}</div>
+                                    <div>atau klik upload</div>
                                 </div>
                             </div>
                         )}
