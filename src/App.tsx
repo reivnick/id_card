@@ -1,5 +1,3 @@
-
-import React from 'react';
 import { AuthProvider, useAuth } from './features/auth/AuthContext';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
