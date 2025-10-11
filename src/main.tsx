@@ -2,7 +2,10 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { Analytics } from "@vercel/analytics/react"
 import './App.css'
-import App from './App.tsx'
+
+import Login from './pages/Login.tsx'
+import AcademyCartificate from './pages/academyCertificate.tsx'
+import IdCard from './pages/IdCard.tsx'
 
 // Setup Buffer polyfill for @react-pdf/renderer
 if (typeof window !== 'undefined') {
@@ -15,7 +18,9 @@ if (typeof window !== 'undefined') {
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <Login />
+    <AcademyCartificate />
+    <IdCard />
     <Analytics />
   </StrictMode>,
 )
