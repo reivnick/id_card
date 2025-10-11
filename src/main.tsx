@@ -4,7 +4,7 @@ import { Analytics } from "@vercel/analytics/react"
 import './App.css'
 
 import Login from './pages/Login.tsx'
-import AcademyCartificate from './pages/academyCertificate.tsx'
+import AcademyCartificate from './pages/AcademyCertificate.tsx'
 import IdCard from './pages/IdCard.tsx'
 
 // Setup Buffer polyfill for @react-pdf/renderer
