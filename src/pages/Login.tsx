@@ -1,21 +1,28 @@
 import React, { useState } from "react";
+import { useAuth } from "../features/auth/AuthContext";
 
 export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const { login, loading } = useAuth();
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Username:", username);
-        console.log("Password:", password);
+        setError("");
+
+        const success = await login(username, password);
+        if (!success) {
+            setError("Invalid username or password");
+        }
     };
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-sky-100 to-white">
-            <div className="bg-white/60 backdrop-blur-xl border border-white/40 shadow-lg rounded-3xl w-full max-w-md p-8">
+            <div className="bg-white backdrop-blur-xl border border-white/40 shadow-lg rounded-3xl w-full max-w-md p-8">
                 <div className="flex flex-col items-center mb-6">
                     <img
-                        src="/academy.png"
+                        src="/insan_medika.png"
                         alt="Logo"
                         className="w-20 h-20 mb-3 object-contain"
                     />
@@ -26,6 +33,12 @@ export default function Login() {
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-5">
+                    {error && (
+                        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+                            {error}
+                        </div>
+                    )}
+
                     <div>
                         <label className="block text-sm text-gray-700 mb-1">Username</label>
                         <input
@@ -35,6 +48,7 @@ export default function Login() {
                             className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-sky-400 outline-none"
                             placeholder="Enter your username"
                             required
+                            disabled={loading}
                         />
                     </div>
 
@@ -47,14 +61,16 @@ export default function Login() {
                             className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-sky-400 outline-none"
                             placeholder="Enter your password"
                             required
+                            disabled={loading}
                         />
                     </div>
 
                     <button
                         type="submit"
-                        className="w-full bg-[#008EDF] hover:bg-sky-700 text-white py-2.5 rounded-lg font-semibold transition-all"
+                        disabled={loading}
+                        className="w-full bg-[#008EDF] hover:bg-sky-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white py-2.5 rounded-lg font-semibold transition-all"
                     >
-                        Sign In
+                        {loading ? "Signing In..." : "Sign In"}
                     </button>
                 </form>
             </div>
