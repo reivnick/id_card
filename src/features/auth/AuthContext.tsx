@@ -1,9 +1,15 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
+import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
+import type { User } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
+import { auth, db } from '../../lib/firebase';
 
 interface AuthContextType {
     isAuthenticated: boolean;
-    login: (username: string, password: string) => Promise<boolean>;
+    user: User | null;
+    role: 'admin' | 'user' | null;
+    login: (email: string, password: string) => Promise<boolean>;
     logout: () => void;
     loading: boolean;
 }
@@ -24,42 +30,64 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+    const [user, setUser] = useState<User | null>(null);
+    const [role, setRole] = useState<'admin' | 'user' | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        // Check if user is already logged in (e.g., from localStorage)
-        const storedAuth = localStorage.getItem('isAuthenticated');
-        if (storedAuth === 'true') {
-            setIsAuthenticated(true);
-        }
-        setLoading(false);
+        const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+            if (firebaseUser) {
+                setUser(firebaseUser);
+                setIsAuthenticated(true);
+
+                // Get user role from Firestore
+                try {
+                    const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
+                    if (userDoc.exists()) {
+                        const userData = userDoc.data();
+                        setRole(userData.role || 'user');
+                    } else {
+                        setRole('user');
+                    }
+                } catch (error) {
+                    console.error('Error fetching user role:', error);
+                    setRole('user');
+                }
+            } else {
+                setUser(null);
+                setIsAuthenticated(false);
+                setRole(null);
+            }
+            setLoading(false);
+        });
+
+        return () => unsubscribe();
     }, []);
 
-    const login = async (username: string, password: string): Promise<boolean> => {
+    const login = async (email: string, password: string): Promise<boolean> => {
         setLoading(true);
-
-        // Get credentials from environment variables
-        const envUsername = import.meta.env.VITE_USERNAME;
-        const envPassword = import.meta.env.VITE_PASSWORD;
-
-        if (username === envUsername && password === envPassword) {
-            setIsAuthenticated(true);
-            localStorage.setItem('isAuthenticated', 'true');
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
             setLoading(false);
             return true;
-        } else {
+        } catch (error) {
+            console.error('Login error:', error);
             setLoading(false);
             return false;
         }
     };
 
-    const logout = () => {
+    const logout = async () => {
+        await signOut(auth);
         setIsAuthenticated(false);
-        localStorage.removeItem('isAuthenticated');
+        setUser(null);
+        setRole(null);
     };
 
     const value: AuthContextType = {
         isAuthenticated,
+        user,
+        role,
         login,
         logout,
         loading,
