@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '../features/auth/AuthContext';
 import IdCard from './IdCard';
-import AcademyCertificate from './AcademyCertificate';
+import Certificate from './Certificate';
 
 export default function Dashboard() {
     const [activeTab, setActiveTab] = useState<'idcard' | 'certificate'>('idcard');
@@ -19,7 +19,7 @@ export default function Dashboard() {
                     <div className="flex justify-between items-center h-16">
                         <div className="flex items-center space-x-3">
                             <img
-                                src="/insan_medika.png"
+                                src="/vite.png"
                                 alt="Logo"
                                 className="w-8 h-8 object-contain"
                             />
@@ -63,7 +63,7 @@ export default function Dashboard() {
                 {/* Tab Content */}
                 <div>
                     {activeTab === 'idcard' && <IdCard />}
-                    {activeTab === 'certificate' && <AcademyCertificate />}
+                    {activeTab === 'certificate' && <Certificate />}
                 </div>
             </div>
         </div>

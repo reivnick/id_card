@@ -22,7 +22,7 @@ export default function Login() {
             <div className="bg-white backdrop-blur-xl border border-white/40 shadow-lg rounded-3xl w-full max-w-md p-8">
                 <div className="flex flex-col items-center mb-6">
                     <img
-                        src="/insan_medika.png"
+                        src="/vite.svg"
                         alt="Logo"
                         className="w-20 h-20 mb-3 object-contain"
                     />

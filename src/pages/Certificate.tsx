@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { saveAs } from 'file-saver';
 
-export default function AcademyCartificate() {
+export default function Certificate() {
     const [name, setName] = useState<string>('');
     const [noLegal, setNoLegal] = useState<string>('');
     const [date, setDate] = useState<string>('');
@@ -83,7 +83,7 @@ export default function AcademyCartificate() {
             const blob = await pdf(
                 <Document>
                     <Page size={[651, 460]} style={styles.page}>
-                        <Image src="/certificate_template.png" style={styles.background} />
+                        <Image src="/{INPUT_IMAGE}" style={styles.background} />
 
                         <View style={styles.contentContainer}>
                             <Text style={styles.noLegal}>
@@ -160,7 +160,7 @@ export default function AcademyCartificate() {
 
                     <div
                         className={`relative bg-cover bg-center shadow-lg rounded-xl w-[651px] h-[460px]`}
-                        style={{ backgroundImage: "url('/certificate_template.png')" }}
+                        style={{ backgroundImage: "url('/{INPUT_IMAGE}')" }}
                     >
                         {/* Text Column Container */}
                         <div className="absolute bottom-[28%] left-0 w-full flex flex-col items-center justify-start px-7 space-y-2">

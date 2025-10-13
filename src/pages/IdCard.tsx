@@ -171,7 +171,7 @@ export default function IdCard() {
                 <Document>
                     <Page size={[353, 600]} style={styles.page}>
                         {/* Background template */}
-                        <Image src='/idcard_template.png' style={styles.background} />
+                        <Image src='/INPUT_IMAGE.png' style={styles.background} />
 
                         {/* Content Container - Column Layout */}
                         <View style={styles.contentContainer}>
@@ -305,7 +305,7 @@ export default function IdCard() {
                     <div
                         className={`relative bg-cover bg-center shadow-lg rounded-xl w-full max-w-[271px] h-[460px] ${isMobile ? 'aspect-[3/4]' : ''} transition-all duration-200 ${isDraggingFile ? 'ring-4 ring-blue-400 ring-offset-2' : ''
                             }`}
-                        style={{ backgroundImage: "url('/idcard_template.png')" }}
+                        style={{ backgroundImage: "url('/INPUT_IMAGE.png')" }}
                         onDrop={handleDrop}
                         onDragOver={handleDragOver}
                         onDragEnter={handleDragEnter}
